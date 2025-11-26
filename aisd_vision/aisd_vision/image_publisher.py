@@ -26,9 +26,6 @@ def main(args=None):
     rclpy.init(args=args)
     image_publisher = ImagePublisher()
     rclpy.spin(image_publisher)
-    # Destroy the node explicitly
-    # (optional - otherwise it will be done automatically
-    # when the garbage collector destroys the node object)
     image_publisher.destroy_node()
     rclpy.shutdown()
 
