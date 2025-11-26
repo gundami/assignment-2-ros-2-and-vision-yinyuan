@@ -24,7 +24,8 @@ setup(
     },
     entry_points={
         'console_scripts': [
-            'aisd_motion_node = aisd_motion.aisd_motion_node:main'
+            'aisd_motion_node = aisd_motion.aisd_motion_node:main',
+            'move = aisd_motion.move:main'
         ],
     },
 )
