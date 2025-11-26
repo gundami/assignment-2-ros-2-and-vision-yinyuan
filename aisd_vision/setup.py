@@ -24,7 +24,10 @@ setup(
     },
     entry_points={
         'console_scripts': [
-            'aisd_vision_node = aisd_vision.aisd_vision_node:main'
+            'aisd_vision_node = aisd_vision.aisd_vision_node:main',
+            'image_publisher = aisd_vision.image_publisher:main',
+            'hands = aisd_vision.hands:main'
         ],
+        
     },
 )
