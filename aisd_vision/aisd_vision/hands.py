@@ -19,9 +19,7 @@ class HandDetectionNode(Node):
             10)
         
         self.br = CvBridge()
-        
         self.hand_publisher = self.create_publisher(Hand, 'cmd_hand', 10)
-        
         self.get_logger().info('Hand detection node started')
     
     def listener_callback(self, msg):
