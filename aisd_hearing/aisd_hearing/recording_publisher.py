@@ -94,15 +94,14 @@ def trim(snd_data):
     snd_data.reverse()
     return snd_data
 
-def add_silence(snd_data, seconds):
+def add_silence(snd_data, seconds, rate):
     """Add silence to the start and end of 'snd_data' of length 'seconds' (float)"""
-    silence = [0] * int(seconds * 16000)
-    r = array('h', silence)
+    r = array('h', [0 for i in range(int(seconds*rate))])
     r.extend(snd_data)
-    r.extend(silence)
+    r.extend([0 for i in range(int(seconds*rate))])
     return r
 
-def record(device):
+def record(rate, device):
     """
     Record a word or words from the microphone and 
     return the data as an array of signed shorts.
@@ -113,9 +112,9 @@ def record(device):
     it without getting chopped off.
     """
     p = pyaudio.PyAudio()
-    stream = p.open(format=FORMAT, channels=1, rate=16000,
-        input=True, output=True, input_device_index=device,
-        frames_per_buffer=CHUNK_SIZE)
+    stream = p.open(format=FORMAT, channels=1, rate=rate,
+        input=True, output=True, frames_per_buffer=CHUNK_SIZE,
+        input_device_index=device)
 
     num_silent = 0
     snd_started = False
@@ -124,7 +123,7 @@ def record(device):
 
     while 1:
         # little endian, signed short
-        snd_data = array('h', stream.read(CHUNK_SIZE))
+        snd_data = array('h', stream.read(CHUNK_SIZE, exception_on_overflow=False))
         if byteorder == 'big':
             snd_data.byteswap()
         r.extend(snd_data)
@@ -146,19 +145,23 @@ def record(device):
 
     r = normalize(r)
     r = trim(r)
-    r = add_silence(r, 0.5)
+    r = add_silence(r, 0.5, rate)
     return sample_width, r
 
 def record_to_file(path, rate, device):
     """Records from the microphone and outputs the resulting data to 'path'"""
-    sample_width, data = record(device)
-    data = pack('<' + ('h'*len(data)), *data)
+    sample_width, data = record(rate, device)
 
+    if rate != 16000:
+        data_16GHz = audioop.ratecv(data, sample_width, 1, rate, 16000, None)[0]
+    else:
+        data_16GHz = pack('<' + ('h'*len(data)), *data)
+        
     wf = wave.open(path, 'wb')
     wf.setnchannels(1)
     wf.setsampwidth(sample_width)
-    wf.setframerate(rate)
-    wf.writeframes(data)
+    wf.setframerate(16000)
+    wf.writeframes(data_16GHz)
     wf.close()
 
 def find_device(args):
