@@ -15,4 +15,10 @@
   <export>
     <build_type>ament_python</build_type>
   </export>
+
+  <depend>rclpy</depend>
+  <depend>std_msgs</depend>
+  <depend>python3-pyaudio</depend>
+  <depend>portaudio19-dev</depend>
+  <depend>python3-pip</depend>
 </package>

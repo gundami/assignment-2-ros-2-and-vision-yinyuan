@@ -24,7 +24,10 @@ setup(
     },
     entry_points={
         'console_scripts': [
-            'aisd_hearing_node = aisd_hearing.aisd_hearing_node:main'
+            'aisd_hearing_node = aisd_hearing.aisd_hearing_node:main',
+            'recording_publisher = aisd_hearing.recording_publisher:main',
+            'words_publisher = aisd_hearing.words_publisher:main',
+            'speak_client = aisd_hearing.speak_client:main'
         ],
     },
 )
