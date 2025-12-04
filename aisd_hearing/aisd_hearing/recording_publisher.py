@@ -15,7 +15,7 @@ from rclpy.node import Node
 from std_msgs.msg import String
 
 
-THRESHOLD = 500
+THRESHOLD = 3000
 CHUNK_SIZE = 1024
 FORMAT = pyaudio.paInt16
 
