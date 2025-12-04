@@ -37,7 +37,7 @@ class RecordingPublisher(Node):
         audio_path = get_package_share_directory('aisd_hearing')
         audio_path =  audio_path + "/recordings"
         device = find_device(sys.argv)
-        rate = 16000
+        rate = 48000  # Changed to match device native rate
         while 1:
             current_time = str(self.get_clock().now().nanoseconds)
             audio_file = "{}/{}.wav".format(audio_path, current_time)

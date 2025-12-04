@@ -24,7 +24,8 @@ setup(
     },
     entry_points={
         'console_scripts': [
-            'aisd_speaking_node = aisd_speaking.aisd_speaking_node:main'
+            'aisd_speaking_node = aisd_speaking.aisd_speaking_node:main',
+            'speak = aisd_speaking.speak:main',
         ],
     },
 )
